@@ -16,13 +16,13 @@ export const useAuthStore = create<authState>()(
     persist(
     (set,get)=>({
         user: null,
-        setUser: (data)=>set({user: data}),
         deviceTokenAdded: false,
+        setUser: (data)=>set({user: data}),
         logout: ()=>set({user: null,deviceTokenAdded:false}),
         setDeviceTokenStatus: (value)=>set({deviceTokenAdded: value}),
     }),
     {
-        name: 'auth-store',
+        name: 'auth-storage',
         storage: createJSONStorage(()=>mmkvStorage)
     }
 ));

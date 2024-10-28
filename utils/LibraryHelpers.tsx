@@ -11,7 +11,7 @@ export const launchCamera = async (): Promise<string | null> => {
         const result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            quality: 1,
+            quality: 0.1,
         });
 
         if (!result.canceled && result.assets?.length) {

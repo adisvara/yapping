@@ -10,8 +10,8 @@ export const appAxios = axios.create({
 export const refresh_Tokens = async () => {
     try {
         const refreshToken = tokenStorage.getString('refreshToken');
-        const response = await appAxios.post(`${BASE_URL}/auth/refresh-token`,{
-            refreshToken: refreshToken})
+        const response = await axios.post(`${BASE_URL}/oauth/refresh-token`,{
+            refresh_token: refreshToken})
         const new_access_token = response.data.access_token;
         const new_refresh_token = response.data.refresh_token;
         tokenStorage.set('accessToken',new_access_token);
@@ -38,13 +38,13 @@ appAxios.interceptors.response.use(
                 const newAccessToken = await refresh_Tokens();
                 if(newAccessToken){
                     error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-                    return appAxios(error.config);
+                    return axios(error.config);
                 }
             } catch (error) {
                 console.log("Refresh token failed");
             }
             if(error.response && error.response.status != 401){
-                const error_message = error.response.data.message || error.message;
+                const error_message = error.response.data.message || "Token expired";
             }
         }
         return Promise.reject(error);
